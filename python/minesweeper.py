@@ -74,5 +74,5 @@ Several minefields may be input in this format:
 """
         sys.exit(0)
 
-    logging.basicConfig(filename="minesweeper.log", level=logging.INFO, format='%(asctime)s %(message)s')
+    logging.basicConfig(filename="minesweeper.log", level=logging.INFO, format='%(msecs)d %(message)s')
     main(sys.stdin, sys.stdout)
