@@ -2,7 +2,6 @@ package com.minesweep;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +9,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 /**
+ * Scanner for minefields which returns a field with hints.
  * Created by ton on 19/01/17.
  */
 public class MinefieldScanner {
@@ -27,11 +27,7 @@ public class MinefieldScanner {
     }
 
     public static void main(String[] args) throws IOException {
-        scanMineFields(System.in);
-    }
-
-    private static void scanMineFields(InputStream in) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int count = 1;
         while (true) {
             String line = reader.readLine();
@@ -51,7 +47,7 @@ public class MinefieldScanner {
                     }
                 }
             }
-            System.out.println("Field " + count + ":");
+            System.out.println("Field #" + count + ":");
             System.out.println(minefieldScanner.getClues());
             count++;
         }
@@ -62,7 +58,7 @@ public class MinefieldScanner {
         for (int h=0; h<this.height; h++) {
             for (int w = 0; w < this.width; w++) {
                 Optional<Marker> marker = Optional.ofNullable(clues.get(coords(h, w)));
-                cluesStr.append(marker.orElse(zero()).toString());
+                cluesStr.append(marker.orElse(zero()));
             }
             cluesStr.append("\n");
         }
@@ -73,7 +69,7 @@ public class MinefieldScanner {
         this.clues.put(coords(h, w), bomb());
         for (int dh = -1; dh < 2; dh++) {
             for (int dw = -1; dw < 2; dw++) {
-                Coords coordinates = coords(h + dh, w + dw);
+                Coords coordinates = coords(h + dh, w + dw - 1);
                 if (clues.containsKey(coordinates)) {
                     clues.get(coordinates).incrementCount();
                 } else {
